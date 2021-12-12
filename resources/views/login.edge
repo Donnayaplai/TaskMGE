@@ -1,0 +1,52 @@
+@layout('layouts/master')
+
+@set('title','Login')
+
+@section('body')
+<h1 class="fw-bold text-center mt-3">Login&nbsp;<i class="fas fa-sign-in-alt"></i></h1>
+@if(flashMessages.has('RegisterSuccess'))
+<div class="alert alert-success d-flex align-items-center mx-auto" role="alert" style="width:max-content;">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+  <div>
+    {{flashMessages.get('RegisterSuccess')}}
+  </div>
+</div>
+{{--  <div class="alert alert-success mt-3" role="alert">
+  <h2 class="text-center text-dark">{{flashMessages.get('RegisterSuccess')}}</h2>          
+</div>  --}}
+@endif
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card my-3">
+          <form class="card-body cardbody-color p-lg-5" action="{{route('users.login')}}" method="POST">
+                {{ csrfField() }}
+            <div class="mb-3">
+               <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email"
+                placeholder="email">
+                @if(flashMessages.has('errors.email'))
+                <p class="text-danger text-center">{{flashMessages.get('errors.email')}}</p>
+                @endif
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="password" name="password">
+                @if(flashMessages.has('errors.password'))
+                <p class="text-danger text-center">{{flashMessages.get('errors.password')}}</p>
+                @endif
+            </div>
+            <div class="text-center"><button type="submit" class="btn btn-primary px-5 mb-5 w-100" value="Login">Login</button></div>
+            <div class="text-center">
+              Registered? <a href="{{ route('register') }}" class="text-dark fw-bold"> Create an
+                Account</a>
+            </div>
+          </form>
+        </div>
+          @if(flashMessages.has('error'))
+        <p class="text-danger fw-bold text-center"> {{ flashMessages.get('error')}} </p>
+           @endif
+      </div>
+    </div>
+  </div>
+@endsection

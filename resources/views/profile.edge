@@ -1,0 +1,87 @@
+@layout('layouts/master')
+
+@set('title','Profile')
+
+@section('body')
+@if(useredit)
+<div class="container">
+<h1 class="text-center fw-bold mt-3">Edit Profile <i class="fas fa-user-edit"></i></h1>
+<div class="border mt-3 p-3 mb-5 mx-auto" style="width: 400px">
+<form action="{{ route('user.update',{id:useredit.id}) }}" method="POST">
+    {{ csrfField() }}
+<div class="mb-3">
+<label for="firstName">Firstname</label>
+<input type="text" class="form-control" name="first_name" value="{{useredit.firstName}}"/>
+    @if(flashMessages.has('errors.first_name'))
+    <p class="text-danger">{{flashMessages.get('errors.first_name')}}</p>
+    @endif
+</div>
+<div class="mb-3">
+<label for="lastName">Lastname</label>
+<input type="text" class="form-control" name="last_name" value="{{useredit.lastName}}"/>
+    @if(flashMessages.has('errors.last_name'))
+    <p class="text-danger">{{flashMessages.get('errors.last_name')}}</p>
+    @endif
+</div>
+<div class="row mb-3">
+    <div class="col"></div>
+    <div class="col"><button type="submit" value="Save" class="btn btn-success" style="float: right">Edit profile &nbsp;<i class="far fa-edit"></i></button></div>
+</div>
+</form>
+</div>
+</div>
+@else
+<section class="vh-100">
+<h1 class="fw-bold text-center mt-3">Profile&nbsp;<i class="fas fa-user-alt"></i></h1>
+@if(flashMessages.has('EditProfileSuccess'))
+<div class="alert alert-success mt-3 mx-auto" role="alert" style="width:max-content">
+  <h4 class="text-center text-dark">{{flashMessages.get('EditProfileSuccess')}}</h4>          
+</div>
+@endif
+  <div class="container">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6 mb-4 mb-lg-0 p-3">
+        <div class="card mb-3" style="border-radius: .5rem;">
+          <div class="row g-0">
+            <div class="col-md-4 text-center" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <img
+                src="https://img.icons8.com/color/100/000000/test-account.png"
+                alt="Avatar"
+                class="img-fluid my-3"
+                style="width: 80px;"
+              />
+              <div>
+              @if(user)
+              <h4 class="text-dark">{{user.firstName}} {{user.lastName}}</h4>
+              <a href="{{ route('user.edit',{id: user.id}) }}"><button class="btn btn-secondary mt-3 mb-3" >Edit profile&nbsp;<i class="far fa-edit"></i></button></a>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-3">
+                <h5>Information</h5>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6 class="fw-bold">Firstname</h6>
+                    <p class="text-muted">{{user.firstName}}</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6 class="fw-bold">Lastname</h6>
+                    <p class="text-muted">{{user.lastName}}</p>
+                  </div>
+                    <div class="col-6 mb-3">
+                    <h6 class="fw-bold">Email</h6>
+                    <p class="text-muted">{{user.email}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+@endif
+@endsection

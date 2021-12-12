@@ -1,0 +1,39 @@
+@layout('layouts/master')
+
+@set('title',taskJson.taskName)
+
+@section('body')
+<div class="container">
+
+<h1 class="fw-bold mt-3 mb-3 text-center">Task Detail:&nbsp;&nbsp; <span class="fw-normal">{{taskJson.task_name}}</span></h1>
+<div class="border py-3 px-3 mx-auto" style="width: 600px">
+    <div class="row mb-3">
+        <div class="col"><a href="{{ route('task.edit',{id: taskJson.id}) }}"><button type="button" class="btn btn-secondary"  style="float:right; width:150px;">Edit &nbsp;<i class="far fa-edit"></i></button></a></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4"><p class="fw-bold fs-4">Task name:</p></div>
+        <div class="col-md-8"><p class="fs-4">{{taskJson.task_name}}</p></div>
+        <div class="col-md-4"><p class="fw-bold fs-4">Description:</p></div>
+        <div class="col-md-8"><p class="fs-4">{{taskJson.description}}</p></div>
+        <div class="col-md-4"><p class="fw-bold fs-4">Status:</p></div>
+       @if(taskJson.isCompleted === 0)
+        <div class="col-md-8">
+              <p class="fs-4">Incomplete</p>
+              </div>
+        @else
+         <div class="col-md-8">
+            <p class="fs-4">Complete</p>
+        </div>
+        @endif
+            </div>
+          <div class="row">
+        <div class="col-md-4"><p class="fw-bold fs-4">Start date:</p></div>
+        <div class="col-md-8"><p class="fs-4">{{taskJson.start_date}}</p></div>
+          <div class="col-md-4"><p class="fw-bold fs-4">Duedate:</p></div>
+        <div class="col-md-8"><p class="fs-4">{{taskJson.due_date}}</p></div>
+
+</div>
+</div>
+
+@endsection

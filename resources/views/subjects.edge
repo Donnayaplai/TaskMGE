@@ -1,0 +1,115 @@
+@layout('layouts/master')
+
+@set('title','Tasks')
+
+@section('body')
+<div class="w-75 mx-auto">
+@if(editsubject)
+<h1 class="text-center fw-bold mt-3">Edit Subject</h1>
+<div class="border mt-3 p-3 mb-5">
+<form action="{{ route('subject.update',{id:editsubject.id}) }}" method="POST">
+    {{ csrfField() }}
+<div class="mb-3">
+<label for="subjectName">Subject Name</label>
+<input type="text" class="form-control" name="subject_name" value="{{editsubject.subjectName}}"/>
+    @if(flashMessages.has('errors.subject_name'))
+    <p class="text-danger">{{flashMessages.get('errors.subject_name')}}</p>
+    @endif
+</div>
+<div class="row mb-3">
+    <div class="col"></div>
+    <div class="col"><button type="submit" value="Save" class="btn btn-success" style="float: right">Edit&nbsp;<i class="far fa-edit"></i></button></div>
+</div>
+</form>
+</div>
+ @if(subjects != null)
+ <h1 class="fw-bold text-center">List of Subjects</h1>
+<div class="table-responsive">
+  <table class="table table-hover table-borderless mx-auto">
+    <thead style="background-color: #C7E5F0; text-align: center; width: 400px;">
+    <tr>
+      <th scope="col">Subject</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody style="background-color: #EAE7E2; text-align: center">
+     @each(subject in subjects)
+    <tr>
+      <th scope="row">{{subject.subjectName}}</th>
+      <th scope="row"><a href="{{ route('subject.edit',{id: subject.id}) }}"><button type="button" class="btn btn-secondary">Edit &nbsp;<i class="far fa-edit"></i></button></a></th>
+      <th scope="row"><a href="{{ route('subject.delete',{id: subject.id}) }}"><button type="button" class="btn btn-danger">Remove &nbsp;<i class="fas fa-trash-alt"></i></button></a></th>
+    @endeach
+    </tr>
+  </tbody>
+  </table>
+</div>
+@else
+<h2 class="fw-bold text-center">No subject add!</h2>
+
+@endif
+@else
+<h1 class="text-center fw-bold mt-3">Add New Subject</h1>
+@if(flashMessages.has('AddSubject'))
+<div class="alert alert-success mt-3 mx-auto" role="alert" style="width:max-content">
+  <h4 class="text-center text-dark">{{flashMessages.get('AddSubject')}}</h4>          
+</div>
+@elseif (flashMessages.has('DeleteSubject'))
+<div class="alert alert-success mt-3 mx-auto" role="alert" style="width:max-content">
+  <h4 class="text-center text-dark">{{flashMessages.get('DeleteSubject')}}</h4>          
+</div>
+@elseif (flashMessages.has('EditSubject'))
+<div class="alert alert-success mt-3 mx-auto" role="alert" style="width:max-content">
+  <h4 class="text-center text-dark">{{flashMessages.get('EditSubject')}}</h4>          
+</div>
+@endif
+<div class="border mt-3 p-3 mb-5">
+<form action="{{ route('subject.new') }}" method="POST">
+    {{ csrfField() }}
+
+<div class="mb-3">
+<label for="subjectName">Subject Name</label>
+<input type="text" class="form-control" name="subject_name"/>
+    @if(flashMessages.has('errors.subject_name'))
+    <p class="text-danger">{{flashMessages.get('errors.subject_name')}}</p>
+    @endif
+</div>
+<div class="row mb-3">
+    <div class="col"></div>
+    <div class="col"><button type="submit" value="Save" class="btn btn-success" style="float: right;width: 150px">Add &nbsp;<i class="fas fa-plus-circle"></i></button></div>
+</div>
+</form>
+</div>
+
+ @if(subjects != null)
+ <h1 class="fw-bold text-center">List of Subjects</h1>
+<div class="table-responsive">
+  <table class="table table-hover table-borderless mx-auto">
+    <thead style="background-color: #C7E5F0; text-align: center; width: 400px;">
+    <tr>
+      <th scope="col">Subject</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody style="background-color: #EAE7E2; text-align: center">
+     @each(subject in subjects)
+    <tr>
+      <th scope="row">{{subject.subjectName}}</th>
+      <th scope="row"><a href="{{ route('subject.edit',{id: subject.id}) }}"><button type="button" class="btn btn-secondary" style="width: max-content">Edit &nbsp;<i class="far fa-edit"></i></button></a></th>
+      <th scope="row"><a href="{{ route('subject.delete',{id: subject.id}) }}"><button type="button" class="btn btn-danger" style="width: max-content">Remove &nbsp;<i class="fas fa-trash-alt"></i></button></a></th>
+    @endeach
+    </tr>
+  </tbody>
+  </table>
+</div>
+@else
+<div class="alert alert-info mt-3" role="alert">
+  <h2 class="text-center text-dark">No subject add!</h2>          
+</div>
+@endif
+@endif
+</div>
+
+
+@endsection
